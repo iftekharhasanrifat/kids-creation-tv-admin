@@ -11,7 +11,7 @@ const Navbar = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="navbar-nav">
+                    <div className="navbar-nav ms-auto">
                         <Link to="addprogram"className="nav-link">Add Programs</Link>
                         <Link to="addupcomingprograms"className="nav-link">Add Upcoming Programs</Link>
                         <Link to="addkidsnews"className="nav-link">Add Kids News</Link>

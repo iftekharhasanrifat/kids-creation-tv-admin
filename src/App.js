@@ -28,6 +28,9 @@ function App() {
         <Route path="/signin">
           <SignIn></SignIn>
         </Route>
+        <Route exact path="/">
+          <AddPrograms></AddPrograms>
+        </Route>
       </Switch>
     </Router>
   );
