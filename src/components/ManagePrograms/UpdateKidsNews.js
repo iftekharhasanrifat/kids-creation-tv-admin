@@ -1,6 +1,6 @@
 import React from "react";
-import "./AddKidsNews.css";
-const AddKidsNews = () => {
+
+const UpdateKidsNews = () => {
   return (
     <div className="write">
       <h2 className="text-center mb-5">Publish Kids News</h2>
@@ -37,4 +37,4 @@ const AddKidsNews = () => {
   );
 };
 
-export default AddKidsNews;
+export default UpdateKidsNews;
