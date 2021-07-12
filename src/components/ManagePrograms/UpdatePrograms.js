@@ -2,25 +2,23 @@ import React from "react";
 
 const UpdatePrograms = () => {
   return (
-    <div className="write">
-      <h2 className="text-center mb-5">Publish Programs</h2>
+    <div className='write'>
+      <h2 className='text-center mb-5'>Publish Programs</h2>
       <form className="writeForm">
         <div className="writeFormGroup">
-          <input
-            type="text"
-            placeholder="Category"
-            className="writeInput"
-            autoFocus={true}
-          />
+          <select className="categoryDropdown" name="category" id="categories">
+            <option value="Know Your Country">Know Your Country</option>
+            <option value="Cartoon Songs">Cartoon Songs</option>
+            <option value="Poems">Poems</option>
+            <option value="Little Genious">Little Genious</option>
+            <option value="Country Songs">Country Songs</option>
+          </select>
+          {/* <input type="text" placeholder="Category" className="writeInput" autoFocus={true} /> */}
         </div>
         <div className="writeFormGroup">
-          <textarea
-            placeholder="Link"
-            type="text"
-            className="writeInput writeText"
-          ></textarea>
+          <textarea placeholder="Link" type="text" className="writeInput writeText"></textarea>
         </div>
-        <button className="writeSubmit">Publish</button>
+        <button className='programSubmit'>Publish</button>
       </form>
     </div>
   );
