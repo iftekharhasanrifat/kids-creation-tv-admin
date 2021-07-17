@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import ManageAllPrograms from "./ManageAllPrograms";
-
+import axios from "axios"
 const ManagePrograms = () => {
   const [programs, setPrograms] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async ()=> {
+      const res = await axios.get("http://localhost:5000/api/programs");
+      // console.log(res);
+      setPrograms(res.data)
+    }
+    fetchPosts();
+  },[])
   return (
     <div>
       <div className="row">
@@ -15,7 +23,7 @@ const ManagePrograms = () => {
           {/* {programs.map((program) => (
             <ManageAllPrograms program={program}></ManageAllPrograms>
           ))} */}
-          <ManageAllPrograms></ManageAllPrograms>
+          <ManageAllPrograms programs={programs}></ManageAllPrograms>
         </div>
       </div>
     </div>

@@ -15,10 +15,11 @@ tbody td {
   text-align: left;
 }
 
-button {
+button ,.manageButton{
   background-color: #4b908f;
   color: #fff;
   border-radius: 5px;
   border: none;
   padding: 8px;
+  text-decoration: none;
 }

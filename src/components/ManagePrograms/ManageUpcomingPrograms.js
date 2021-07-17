@@ -1,12 +1,23 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Sidebar from "./Sidebar";
-
+import axios from "axios"
 const ManageUpcomingPrograms = () => {
+  const [upcomingPrograms, setUpcomingPrograms] = useState([]);
+
+  useEffect(() => {
+    const fetchUpcomingPrograms = async () => {
+      const res = await axios.get("http://localhost:5000/api/upcomingPrograms");
+      setUpcomingPrograms(res.data);
+    }
+    fetchUpcomingPrograms();
+  }, [])
+
   const history = useHistory();
-  const handleUpcomingUpdate = () => {
-    history.push(`/updateUpcomingPrograms`);
+  const handleDelete = (e) => {
+    e.target.parentNode.parentNode.style.display = "none";
   };
+
   return (
     <div>
       <div className="row">
@@ -24,16 +35,20 @@ const ManageUpcomingPrograms = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Manage Upcoming Programs</td>
-                <td>image will be here</td>
-                <td>
-                  <button onClick={handleUpcomingUpdate} type="submit">
-                    Update
-                  </button>{" "}
-                  | <button type="submit">Delete</button>
-                </td>
-              </tr>
+              {
+                upcomingPrograms.map(upcomingProgram => (
+                  <tr>
+                    <td>{upcomingProgram.title}</td>
+                    <td>image will be here</td>
+                    <td>
+                    <Link className="manageButton" to={`/updateUpcomingPrograms/${upcomingProgram._id}`}>
+                        Update
+                      </Link>{" "}
+                      | <Link onClick={(e) => handleDelete(e)} className="manageButton">Delete</Link>
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>

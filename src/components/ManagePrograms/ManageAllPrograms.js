@@ -1,11 +1,12 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./ManageAllPrograms.css";
-const ManageAllPrograms = () => {
+const ManageAllPrograms = ({ programs }) => {
   const history = useHistory();
-  const handleUpdate = () => {
-    history.push(`/updatePrograms`);
+  const handleDelete = (e) => {
+    e.target.parentNode.parentNode.style.display = "none";
   };
+  // console.log(programs);
   return (
     <div className="manage-all-program">
       <table>
@@ -17,36 +18,20 @@ const ManageAllPrograms = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Add Programs</td>
-            <td>Links will be here</td>
-            <td>
-              <button onClick={handleUpdate} type="submit">
-                Update
-              </button>{" "}
-              | <button type="submit">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Add Upcioming Programs</td>
-            <td>Links will be here</td>
-            <td>
-              <button onClick={handleUpdate} type="submit">
-                Update
-              </button>{" "}
-              | <button type="submit">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Add Kids News</td>
-            <td>Links will be here</td>
-            <td>
-              <button onClick={handleUpdate} type="submit">
-                Update
-              </button>{" "}
-              | <button type="submit">Delete</button>
-            </td>
-          </tr>
+          {
+            programs.map(program => (
+              <tr>
+                <td>{program.category}</td>
+                <td>{program.link}</td>
+                <td>
+                  <Link className="manageButton" to={`/updatePrograms/${program._id}`}>
+                    Update
+                  </Link>{" "}
+                  | <Link onClick={(e)=>handleDelete(e)}className="manageButton">Delete</Link>
+                </td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>

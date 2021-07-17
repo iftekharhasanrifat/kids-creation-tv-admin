@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { useHistory } from "react-router-dom";
-
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios"
 const ManageKidsNews = () => {
   const history = useHistory();
-  const handleKidsNewsUpdate = () => {
-    history.push(`/updateKidsNews`);
+  const handleDelete = (e) => {
+    e.target.parentNode.parentNode.style.display = "none";
   };
+  const [kidsNews, setKidsNews] = useState([]);
+  useEffect(() => {
+    const fetchKidsNews = async () => {
+      const res = await axios.get("http://localhost:5000/api/kidsNews");
+      setKidsNews(res.data);
+    }
+    fetchKidsNews();
+  }, [])
   return (
     <div>
       <div className="row">
@@ -25,17 +33,21 @@ const ManageKidsNews = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Image Will be here</td>
-                <td>Manage Kids News</td>
-                <td>Lorem ipsum dolor sit amet.</td>
-                <td>
-                  <button onClick={handleKidsNewsUpdate} type="submit">
-                    Update
-                  </button>{" "}
-                  | <button type="submit">Delete</button>
-                </td>
-              </tr>
+              {
+                kidsNews.map(singleNews => (
+                  <tr>
+                    <td>Image Will be here</td>
+                    <td>{singleNews.title}</td>
+                    <td>{singleNews.desc}</td>
+                    <td>
+                      <Link className="manageButton" to={`/updateKidsNews/${singleNews._id}`}>
+                        Update
+                      </Link>{" "}
+                      | <Link onClick={(e) => handleDelete(e)} className="manageButton">Delete</Link>
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
