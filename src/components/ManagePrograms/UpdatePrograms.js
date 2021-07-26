@@ -1,9 +1,19 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios"
 const UpdatePrograms = () => {
+  let programId = useParams();
+  const [program, setProgram] = useState({});
+  useEffect(() => {
+    const fetchProgram = async () => {
+      const res = await axios.get(`http://localhost:5000/api/programs/${programId.id}`);
+      setProgram(res.data);
+    }
+    fetchProgram();
+  }, [programId.id])
   return (
     <div className='write'>
-      <h2 className='text-center mb-5'>Publish Programs</h2>
+      <h2 className='text-center mb-5'>Update Programs</h2>
       <form className="writeForm">
         <div className="writeFormGroup">
           <select className="categoryDropdown" name="category" id="categories">
@@ -16,9 +26,9 @@ const UpdatePrograms = () => {
           {/* <input type="text" placeholder="Category" className="writeInput" autoFocus={true} /> */}
         </div>
         <div className="writeFormGroup">
-          <textarea placeholder="Link" type="text" className="writeInput writeText"></textarea>
+          <textarea value={program.link} type="text" className="writeInput writeText"></textarea>
         </div>
-        <button className='programSubmit'>Publish</button>
+        <button className='programSubmit'>Update</button>
       </form>
     </div>
   );

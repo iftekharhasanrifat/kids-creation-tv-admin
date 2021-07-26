@@ -12,46 +12,61 @@ import ManageUpcomingPrograms from "./components/ManagePrograms/ManageUpcomingPr
 import ManageKidsNews from "./components/ManagePrograms/ManageKidsNews";
 import UpdateUpcomingPrograms from "./components/ManagePrograms/UpdateUpcomingPrograms";
 import UpdateKidsNews from "./components/ManagePrograms/UpdateKidsNews";
+import { createContext, useState } from "react";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import NotFound from "./components/NotFound/NotFound";
+
+export const UserContext = createContext();
+export const ErrorContext = createContext();
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
   return (
-    <Router>
-      <Navbar></Navbar>
-      <Switch>
-        <Route path="/addprogram">
-          <AddPrograms></AddPrograms>
-        </Route>
-        <Route path="/addupcomingprograms">
-          <UpciomingPrograms></UpciomingPrograms>
-        </Route>
-        <Route path="/addkidsnews">
-          <AddKidsNews></AddKidsNews>
-        </Route>
-        <Route path="/signin">
-          <SignIn></SignIn>
-        </Route>
-        <Route path="/manageprogram">
-          <ManagePrograms></ManagePrograms>
-        </Route>
-        <Route path="/updatePrograms">
-          <UpdatePrograms></UpdatePrograms>
-        </Route>
-        <Route path="/manageUpcomingProgram">
-          <ManageUpcomingPrograms></ManageUpcomingPrograms>
-        </Route>
-        <Route path="/updateUpcomingPrograms">
-          <UpdateUpcomingPrograms></UpdateUpcomingPrograms>
-        </Route>
-        <Route path="/manageKidsNews">
-          <ManageKidsNews></ManageKidsNews>
-        </Route>
-        <Route path="/updateKidsNews">
-          <UpdateKidsNews></UpdateKidsNews>
-        </Route>
-        <Route exact path="/">
-          <AddPrograms></AddPrograms>
-        </Route>
-      </Switch>
-    </Router>
+    <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
+      <ErrorContext.Provider value={[errorMessage, setErrorMessage]}>
+        <Router>
+          <Navbar></Navbar>
+          <Switch>
+            <PrivateRoute path="/addprogram">
+              <AddPrograms></AddPrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/addupcomingprograms">
+              <UpciomingPrograms></UpciomingPrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/addkidsnews">
+              <AddKidsNews></AddKidsNews>
+            </PrivateRoute>
+            <Route path="/signin">
+              <SignIn></SignIn>
+            </Route>
+            <PrivateRoute path="/manageprogram">
+              <ManagePrograms></ManagePrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/updatePrograms/:id">
+              <UpdatePrograms></UpdatePrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/manageUpcomingProgram">
+              <ManageUpcomingPrograms></ManageUpcomingPrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/updateUpcomingPrograms/:id">
+              <UpdateUpcomingPrograms></UpdateUpcomingPrograms>
+            </PrivateRoute>
+            <PrivateRoute path="/manageKidsNews">
+              <ManageKidsNews></ManageKidsNews>
+            </PrivateRoute>
+            <PrivateRoute path="/updateKidsNews/:id">
+              <UpdateKidsNews></UpdateKidsNews>
+            </PrivateRoute>
+            <PrivateRoute exact path="/">
+              <AddPrograms></AddPrograms>
+            </PrivateRoute>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </Router>
+      </ErrorContext.Provider>
+    </UserContext.Provider>
   );
 }
 

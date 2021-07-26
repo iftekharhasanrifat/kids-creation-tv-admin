@@ -40,7 +40,7 @@ const ManageKidsNews = () => {
                     <td>{singleNews.title}</td>
                     <td>{singleNews.desc}</td>
                     <td>
-                      <Link className="manageButton" to={`/updateKidsNews/${singleNews._id}`}>
+                      <Link className="manageButton" to={`updateKidsNews/${singleNews._id}`}>
                         Update
                       </Link>{" "}
                       | <Link onClick={(e) => handleDelete(e)} className="manageButton">Delete</Link>
