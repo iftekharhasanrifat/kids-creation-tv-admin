@@ -47,9 +47,12 @@
 
 .writeText{
     font-size: 20px;
-    height: 150vh;
+    height: 400px;
 }
-
+.linkText{
+    font-size: 20px;
+    height: 200px;
+}
 .writeSubmit{
     position:absolute;
     top: 20px;

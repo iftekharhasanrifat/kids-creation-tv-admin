@@ -3,10 +3,17 @@ import { Link, useHistory } from "react-router-dom";
 import "./ManageAllPrograms.css";
 const ManageAllPrograms = ({ programs }) => {
   const history = useHistory();
-  const handleDelete = (e) => {
-    e.target.parentNode.parentNode.style.display = "none";
+  const handleDelete = (e, id) => {
+    fetch(`http://localhost:5000/api/programs/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then((result) => {
+        if (result) {
+          e.target.parentNode.parentNode.style.display = "none";
+        }
+      })
   };
-  // console.log(programs);
   return (
     <div className="manage-all-program">
       <table>
@@ -27,7 +34,7 @@ const ManageAllPrograms = ({ programs }) => {
                   <Link className="manageButton" to={`/updatePrograms/${program._id}`}>
                     Update
                   </Link>{" "}
-                  | <Link onClick={(e)=>handleDelete(e)}className="manageButton">Delete</Link>
+                  | <Link onClick={(e) => handleDelete(e, program._id)} className="manageButton">Delete</Link>
                 </td>
               </tr>
             ))
