@@ -4,9 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios"
 const ManageKidsNews = () => {
   const history = useHistory();
-  const handleDelete = (e) => {
-    e.target.parentNode.parentNode.style.display = "none";
-  };
+  const PF = "http://localhost:5000/images/"
   const [kidsNews, setKidsNews] = useState([]);
   useEffect(() => {
     const fetchKidsNews = async () => {
@@ -15,6 +13,17 @@ const ManageKidsNews = () => {
     }
     fetchKidsNews();
   }, [])
+  const handleDelete = (e, id) => {
+    fetch(`http://localhost:5000/api/kidsNews/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then((result) => {
+        if (result) {
+          e.target.parentNode.parentNode.style.display = "none";
+        }
+      })
+  };
   return (
     <div>
       <div className="row">
@@ -36,14 +45,16 @@ const ManageKidsNews = () => {
               {
                 kidsNews.map(singleNews => (
                   <tr>
-                    <td>Image Will be here</td>
+                    <td className="text-center">
+                      <img height="50px" width="70px" src={PF + singleNews.photo} alt="" />
+                    </td>
                     <td>{singleNews.title}</td>
                     <td>{singleNews.desc}</td>
                     <td>
                       <Link className="manageButton" to={`updateKidsNews/${singleNews._id}`}>
                         Update
                       </Link>{" "}
-                      | <Link onClick={(e) => handleDelete(e)} className="manageButton">Delete</Link>
+                      | <Link onClick={(e) => handleDelete(e, singleNews._id)} className="manageButton">Delete</Link>
                     </td>
                   </tr>
                 ))

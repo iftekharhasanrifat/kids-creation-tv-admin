@@ -29,6 +29,7 @@ const SignIn = () => {
             .then(data => {
                 if (typeof (data) == 'object') {
                     setLoggedInUser(data);
+                    sessionStorage.setItem('user',JSON.stringify(data.username));
                 }
                 else {
                     setErrorMessage(data)

@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 const Navbar = () => {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const handleLogout = () => {
+    window.location.reload();
+    sessionStorage.clear();
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -35,11 +40,12 @@ const Navbar = () => {
               Manage Programs
             </Link>
             {
-              loggedInUser.username?<Link to="/" className="nav-link">
-              {loggedInUser.username}
-            </Link>:<Link to="/signin" className="nav-link">
-              Login
-            </Link>
+              loggedInUser.username || user ? <Link onClick={handleLogout} className="nav-link btn btn-danger text-white">
+                Logout
+              </Link> :
+                <Link to="/signin" className="nav-link">
+                  Login
+                </Link>
             }
           </div>
         </div>

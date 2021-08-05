@@ -12,7 +12,8 @@ const UpdatePrograms = () => {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setProgram(data)
+        setProgram(data);
+        setLink(data.link)
       })
   }, [programId.id])
   const handleSubmit = (e) => {
@@ -57,7 +58,7 @@ const UpdatePrograms = () => {
           {/* <input type="text" placeholder="Category" className="writeInput" autoFocus={true} /> */}
         </div>
         <div className="writeFormGroup">
-          <textarea onChange={(e) => { setLink(e.target.value) }} placeholder={program.link} type="text" className="writeInput linkText"></textarea>
+          <textarea onChange={(e) => { setLink(e.target.value) }} value={link} type="text" className="writeInput linkText"></textarea>
         </div>
         <button className='programSubmit' type='submit'>Update</button>
       </form>

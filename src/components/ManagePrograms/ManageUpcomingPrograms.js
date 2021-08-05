@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import axios from "axios"
 const ManageUpcomingPrograms = () => {
   const [upcomingPrograms, setUpcomingPrograms] = useState([]);
-
+  const PF = "http://localhost:5000/images/";
   useEffect(() => {
     const fetchUpcomingPrograms = async () => {
       const res = await axios.get("http://localhost:5000/api/upcomingPrograms");
@@ -12,10 +12,16 @@ const ManageUpcomingPrograms = () => {
     }
     fetchUpcomingPrograms();
   }, [])
-
-  const history = useHistory();
-  const handleDelete = (e) => {
-    e.target.parentNode.parentNode.style.display = "none";
+  const handleDelete = (e, id) => {
+    fetch(`http://localhost:5000/api/upcomingPrograms/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then((result) => {
+        if (result) {
+          e.target.parentNode.parentNode.style.display = "none";
+        }
+      })
   };
 
   return (
@@ -39,12 +45,14 @@ const ManageUpcomingPrograms = () => {
                 upcomingPrograms.map(upcomingProgram => (
                   <tr>
                     <td>{upcomingProgram.title}</td>
-                    <td>image will be here</td>
+                    <td className="text-center">
+                      <img height="50px" width="70px" src={PF + upcomingProgram.photo} alt="" />
+                    </td>
                     <td>
-                    <Link className="manageButton" to={`/updateUpcomingPrograms/${upcomingProgram._id}`}>
+                      <Link className="manageButton" to={`/updateUpcomingPrograms/${upcomingProgram._id}`}>
                         Update
                       </Link>{" "}
-                      | <Link onClick={(e) => handleDelete(e)} className="manageButton">Delete</Link>
+                      | <Link onClick={(e) => handleDelete(e, upcomingProgram._id)} className="manageButton">Delete</Link>
                     </td>
                   </tr>
                 ))

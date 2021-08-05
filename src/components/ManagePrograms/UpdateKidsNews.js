@@ -4,47 +4,78 @@ import { useParams } from "react-router-dom";
 const UpdateKidsNews = () => {
   let newsId = useParams();
   const [singleKidNews, setSingleKidNews] = useState({});
+  const PF = "http://localhost:5000/images/";
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   useEffect(() => {
     const fetchProgram = async () => {
       const res = await axios.get(`http://localhost:5000/api/kidsNews/${newsId.id}`);
       setSingleKidNews(res.data);
+      setTitle(res.data.title);
+      setDesc(res.data.desc);
     }
     fetchProgram();
   }, [newsId.id])
+  const handleSubmit = (e) => {
+    if (title === "" || desc === "") {
+      setErrorMessage("All fields are required");
+      setSuccessMessage("");
+    }
+    else {
+      const updatedKidsNews = {
+        title,
+        desc
+      }
+      fetch(`http://localhost:5000/api/kidsNews/${newsId.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedKidsNews)
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          setErrorMessage("");
+          setSuccessMessage("Kids News Updated Successfully");
+        })
+    }
+    e.preventDefault();
+  }
   return (
     <div className="write">
       <h2 className="text-center mb-5">Update Kids News</h2>
       <div className="imgContainer">
         <img
           className="writeImg"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg"
+          src={PF + singleKidNews.photo}
           alt=""
         />
       </div>
-      <form className="writeForm">
+      <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
-          <label htmlFor="fileInput">
-            <i className="writeIcon fas fa-plus"></i>
-          </label>
-          <input type="file" id="fileInput" style={{ display: "none" }} />
           <input
             type="text"
-            placeholder="Title"
             className="writeInput"
-            value={singleKidNews.title}
+            value={title}
             autoFocus={true}
+            onChange={e => setTitle(e.target.value)}
           />
         </div>
         <div className="writeFormGroup">
           <textarea
-            placeholder="Description..."
             type="text"
             className="writeInput writeText"
-            value={singleKidNews.desc}
+            value={desc}
+            onChange={e => setDesc(e.target.value)}
           ></textarea>
         </div>
-        <button className="writeSubmit">Update</button>
+        <button className="writeSubmit" type='submit'>Update</button>
       </form>
+      <h4 className="m-1 text-center text-danger">{errorMessage}</h4>
+      <h4 className="m-1 text-center text-success">{successMessage}</h4>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const ManagePrograms = () => {
     const fetchPosts = async ()=> {
       const res = await axios.get("http://localhost:5000/api/programs");
       // console.log(res);
-      setPrograms(res.data)
+      setPrograms(res.data);
     }
     fetchPosts();
   },[])
